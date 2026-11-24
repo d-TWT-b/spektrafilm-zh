@@ -128,8 +128,21 @@ try {
     # 带 token 推送（避免弹登录框），推送后清除
     git remote remove origin 2>$null | Out-Null
     git remote add origin "https://x-access-token:$token@github.com/$owner/$repoName.git"
-    git push -u origin $branch 2>&1 | Select-Object -Last 3 | ForEach-Object { Write-Host "    $_" }
-    if ($LASTEXITCODE -ne 0) { throw "git push 失败，退出码 $LASTEXITCODE" }
+
+    # 证书后端：优先 schannel（用 Windows 证书存储），失败再退回关闭校验
+    $sslArgs = @('-c', 'http.sslBackend=schannel')
+    Line '  推送中（使用 Windows 证书存储）...'
+    git @sslArgs push -u origin $branch 2>&1 | Select-Object -Last 3 | ForEach-Object { Write-Host "    $_" }
+    $pushOk = ($LASTEXITCODE -eq 0)
+
+    if (-not $pushOk) {
+        Warn 'schannel 推送失败，尝试关闭 SSL 校验（仅本次，不写配置）'
+        git -c http.sslVerify=false push -u origin $branch 2>&1 | Select-Object -Last 3 | ForEach-Object { Write-Host "    $_" }
+        $pushOk = ($LASTEXITCODE -eq 0)
+        if ($pushOk) { Warn '已用跳过证书校验的方式推送成功（网络环境证书链不完整，属常见情况）' }
+    }
+
+    if (-not $pushOk) { throw "git push 失败，退出码 $LASTEXITCODE" }
     Ok "代码已推送（$branch）"
 
     git remote set-url origin "https://github.com/$owner/$repoName.git"
