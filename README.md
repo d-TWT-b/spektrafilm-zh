@@ -90,8 +90,11 @@ proxy\build.bat
   受 `SPEKTRAFILM_OFX_LICENSE.txt`（Binary Distribution Notice）约束。
   本项目不修改、不重分发这些文件，因此不涉及该声明。
 - 本项目的代理代码与翻译表以 **GPL-3.0** 发布，见 `LICENSE`。
+- 本项目**基于 [Aedan Diez](https://spektrafilm.114c.de) 的 spektrafilm OFX 的界面文本**进行汉化。
+  代理层为独立实现，不包含、不修改其源代码；译文为对原始界面英文的翻译。
 - 「spektrafilm」是其作者 Aedan Diez 的商标。本项目为**非官方**汉化项目，
-  与作者无隶属或背书关系。
+  与作者无隶属、合作或背书关系。
+- 若作者希望本项目调整或下线，请通过 Issue 联系，会立即配合。
 
 ## 致谢
 
