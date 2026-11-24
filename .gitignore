@@ -1,0 +1,18 @@
+﻿# 构建中间产物
+proxy/obj/
+*.obj
+*.lib
+*.exp
+*.pdb
+
+# 编译产物（作为 Release 附件发布，不进仓库）
+proxy/*.ofx
+
+# 官方插件（严禁提交）
+*.ofx.bundle/
+*_real.ofx
+
+# 系统
+Thumbs.db
+desktop.ini
+.DS_Store
