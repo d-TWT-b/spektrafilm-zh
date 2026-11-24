@@ -1,8 +1,8 @@
 @echo off
-chcp 65001 >nul
 setlocal EnableExtensions EnableDelayedExpansion
 
-:: 瀹夎/閲嶈涓枃浠ｇ悊锛堝箓绛夛紝鍗囩骇瀹樻柟鍖呬箣鍚庣洿鎺ュ弻鍑绘湰鏂囦欢鍗冲彲锛?:: 閫昏緫锛氱湡鎻掍欢(*.ofx 澶т簬 5MB) 鈫?鏀瑰悕涓?*_real.ofx锛涘啀鎶婁唬鐞嗗鍒舵垚鍘熷悕
+:: 安装/重装中文代理（幂等，升级官方包之后直接双击本文件即可）
+:: 逻辑：真插件(*.ofx 大于 5MB) → 改名为 *_real.ofx；再把代理复制成原名
 
 net session >nul 2>&1
 if not "%errorlevel%"=="0" (
@@ -11,36 +11,39 @@ if not "%errorlevel%"=="0" (
 )
 
 set "ROOT=%~dp0"
-set "PROXY=%ROOT%..\proxy\spektrafilm_zh.ofx"
+set "PROXY=%ROOT%proxy\spektrafilm_zh.ofx"
 set "DIR=C:\Program Files\Common Files\OFX\Plugins"
 
 if not exist "%PROXY%" (
-  echo [閿欒] 鎵句笉鍒颁唬鐞嗘枃浠讹細%PROXY%
+  echo [错误] 找不到代理文件：%PROXY%
   pause
   exit /b 1
 )
 
-echo === 瀹夎涓枃浠ｇ悊 ===
+echo === 安装中文代理 ===
 for %%n in (spektrafilm spektrafilm_flow spektrafilm_diffuse spektrafilm_lens) do (
   set "BUNDLE=%DIR%\%%n.ofx.bundle\Contents\Win64"
   set "LIVE=!BUNDLE!\%%n.ofx"
   set "REAL=!BUNDLE!\%%n_real.ofx"
 
   if not exist "!LIVE!" (
-    echo   %%n : 鏈畨瑁咃紝璺宠繃
+    echo   %%n : 未安装，跳过
   ) else (
     for %%A in ("!LIVE!") do set "SZ=%%~zA"
     if !SZ! LSS 1000000 (
-      echo   %%n : 宸叉槸浠ｇ悊锛岃烦杩?    ) else (
+      echo   %%n : 已是代理，跳过
+    ) else (
       if exist "!REAL!" del /f /q "!REAL!" >nul 2>&1
       move /y "!LIVE!" "!REAL!" >nul 2>&1
       if exist "!LIVE!" (
-        echo   %%n : [澶辫触] 鍘熸枃浠惰鍗犵敤锛岃鍏堝叧闂?DaVinci Resolve
+        echo   %%n : [失败] 原文件被占用，请先关闭 DaVinci Resolve
       ) else (
         copy /y "%PROXY%" "!LIVE!" >nul 2>&1
-        echo   %%n : 宸插畨瑁呬唬鐞?      )
+        echo   %%n : 已安装代理
+      )
     )
   )
 )
 echo.
-echo 瀹屾垚銆傞噸鍚?DaVinci Resolve 鐢熸晥銆?pause
+echo 完成。重启 DaVinci Resolve 生效。
+pause

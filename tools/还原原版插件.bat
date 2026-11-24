@@ -1,8 +1,7 @@
 @echo off
-chcp 65001 >nul
 setlocal EnableExtensions EnableDelayedExpansion
 
-:: 还原原版：把 *_real.ofx 改回原名，删掉代理
+:: ��ԭԭ�棺�� *_real.ofx �Ļ�ԭ����ɾ������
 net session >nul 2>&1
 if not "%errorlevel%"=="0" (
   powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath '%~f0' -Verb RunAs -Wait"
@@ -11,7 +10,7 @@ if not "%errorlevel%"=="0" (
 
 set "DIR=C:\Program Files\Common Files\OFX\Plugins"
 
-echo === 还原原版插件 ===
+echo === ��ԭԭ���� ===
 for %%n in (spektrafilm spektrafilm_flow spektrafilm_diffuse spektrafilm_lens) do (
   set "BUNDLE=%DIR%\%%n.ofx.bundle\Contents\Win64"
   set "LIVE=!BUNDLE!\%%n.ofx"
@@ -21,14 +20,14 @@ for %%n in (spektrafilm spektrafilm_flow spektrafilm_diffuse spektrafilm_lens) d
     del /f /q "!LIVE!" >nul 2>&1
     move /y "!REAL!" "!LIVE!" >nul 2>&1
     if exist "!REAL!" (
-      echo   %%n : [失败] 文件被占用，请先关闭 DaVinci Resolve
+      echo   %%n : [ʧ��] �ļ���ռ�ã����ȹر� DaVinci Resolve
     ) else (
-      echo   %%n : 已还原
+      echo   %%n : �ѻ�ԭ
     )
   ) else (
-    echo   %%n : 没有备份，跳过
+    echo   %%n : û�б��ݣ�����
   )
 )
 echo.
-echo 完成。重启 DaVinci Resolve 生效。
+echo ��ɡ����� DaVinci Resolve ��Ч��
 pause
