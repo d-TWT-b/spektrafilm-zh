@@ -28,14 +28,29 @@ Resolve  ──加载──▶  spektrafilm.ofx（本代理）
 
 ## 安装
 
-前置条件：已用官方安装包装好 spektrafilm OFX，并**关闭 DaVinci Resolve**。
+有两种包，任选其一：
 
-1. 下载本仓库的 Release 压缩包，解压到任意目录（路径不要含空格更稳）
-2. 双击 `tools\安装中文代理.bat`，UAC 弹窗点「是」
-3. 启动 DaVinci Resolve
+### 方式一：整合包（推荐，一次装完）
+
+下载 Release 里的 `spektrafilm-zh-full-1.0.0.zip`，它包含：
+
+- 官方安装包 `official\spektrafilm-OFX-Windows.zip`（**原样未修改**）
+- 中文代理 `proxy\spektrafilm_zh.ofx`
+- 一键安装脚本
+
+操作：解压 → 关闭 DaVinci Resolve → 双击 `一键安装中文版.bat` → UAC 点「是」→ 重启 Resolve。
+
+脚本会先调用官方 `install.bat` 安装插件，再自动装上中文代理。
+
+### 方式二：小包（已装过官方插件）
+
+下载 `spektrafilm-zh-1.0.0.zip`，解压后双击 `tools\安装中文代理.bat`。
+
+前置条件：已用官方安装包装好 spektrafilm OFX，并**关闭 DaVinci Resolve**。
 
 脚本会把官方插件改名为 `*_real.ofx`，再把代理复制成原名。它是幂等的：
 重复运行只会跳过已处理的项目，不会重复改名。
+
 
 ## 还原为英文原版
 
@@ -84,17 +99,19 @@ proxy\build.bat
 
 ## 法律声明
 
-- 本项目**不包含** spektrafilm OFX 的任何官方二进制文件或资源文件。
-  使用者需自行从[官方网站](https://spektrafilm.114c.de)下载安装。
+- 本项目**不修改** spektrafilm OFX 的任何文件。整合包中的官方压缩包**原样保留**，
+  包含其完整的手册、许可证与第三方声明。
 - 官方插件的代码以 **GPL-3.0** 发布；其二进制包中另含非 GPL 的捆绑资源，
   受 `SPEKTRAFILM_OFX_LICENSE.txt`（Binary Distribution Notice）约束。
-  本项目不修改、不重分发这些文件，因此不涉及该声明。
+  该声明明确允许**免费再分发完整、未修改的官方压缩包**，本项目据此分发整合包，
+  且不拆分、不重打包官方文件。
 - 本项目的代理代码与翻译表以 **GPL-3.0** 发布，见 `LICENSE`。
-- 本项目**基于 [Aedan Diez](https://spektrafilm.114c.de) 的 spektrafilm OFX 的界面文本**进行汉化。
-  代理层为独立实现，不包含、不修改其源代码；译文为对原始界面英文的翻译。
+- 本项目**基于 [Aedan Diez](https://spektrafilm.114c.de) 的 spektrafilm OFX 的界面文本**
+  进行汉化。代理层为独立实现，不包含、不修改其源代码；译文为对原始界面英文的翻译。
 - 「spektrafilm」是其作者 Aedan Diez 的商标。本项目为**非官方**汉化项目，
   与作者无隶属、合作或背书关系。
 - 若作者希望本项目调整或下线，请通过 Issue 联系，会立即配合。
+
 
 ## 致谢
 
